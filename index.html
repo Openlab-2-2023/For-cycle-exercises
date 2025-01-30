@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Cvičenia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .exercise {
+            background: white;
+            margin-bottom: 10px;
+            border-left: 5px solid #28a745;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .exercise h2 {
+            margin: 0;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        .exercise-content {
+            padding: 15px;
+            display: none;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: #28a745;
+            margin: 20px 0;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            font-family: monospace;
+        }
+
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #output {
+            background: black;
+            color: white;
+            padding: 10px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>JavaScript For-cycle Cvičenia</h1>
+
+    <div class="exercise">
+        <h2 onclick="toggleExercise(1)">Cvičenie 1: Hľadanie znaku v texte</h2>
+        <div class="exercise-content" id="exercise1">
+            <p>Vytvorte funkciu, ktorá prijme dva parametre: <b>string</b> (text) a <b>character</b> (znak). Pomocou
+                <b>cyklu</b> zistite, <b>či sa daný znak nachádza v texte</b>. Ak sa nachádza, vypíšte na konzolu jeho
+                <b>prvú pozíciu</b> v texte (počítané od 0). Ak sa znak v texte <b>nenachádza</b>, vypíšte:</p>
+            <pre>👉 "Znak 'x' sa v texte nenachádza."</pre>
+            <p><b>Príklad:</b></p>
+            <pre>najdiZnak("programovanie", "o");</pre>
+            <p><b>Výstup:</b></p>
+            <pre>Znak 'o' sa nachádza na pozícii 2.</pre>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h2 onclick="toggleExercise(2)">Cvičenie 2: Vypísanie textu odzadu</h2>
+        <div class="exercise-content" id="exercise2">
+            <p>Vytvorte funkciu, ktorá prijme jeden parameter: <b>string</b> (text). Pomocou <b>cyklu</b> vypíšte text
+                <b>odzadu</b>.</p>
+            <p><b>Príklad:</b></p>
+            <pre>otocText("hello");</pre>
+            <p><b>Výstup:</b></p>
+            <pre>olleh</pre>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h2 onclick="toggleExercise(3)">Cvičenie 3: Počet výskytov znaku v texte</h2>
+        <div class="exercise-content" id="exercise3">
+            <p>Vytvorte funkciu, ktorá prijme dva parametre: <b>string</b> (text) a <b>character</b> (znak). Pomocou
+                <b>cyklu</b> zistite, <b>koľkokrát sa daný znak v texte nachádza</b>. Výsledok vypíšte na konzolu vo
+                formáte:</p>
+            <pre>👉 "Znak 'a' sa v texte nachádza 3-krát."</pre>
+            <p>Ak sa znak v texte <b>nenachádza</b>, vypíšte:</p>
+            <pre>👉 "Znak 'x' sa v texte nenachádza."</pre>
+            <p><b>Príklad:</b></p>
+            <pre>pocetVyskytov("banana", "a");</pre>
+            <p><b>Výstup:</b></p>
+            <pre>Znak 'a' sa v texte nachádza 3-krát.</pre>
+        </div>
+    </div>
+
+    <hr> <!-- Delimiter between exercises and JS console -->
+
+    <h2>JS Konzola</h2>
+    <p>Napis JS kod a klikni "Run Code" na zobrazenie vysledku.</p>
+
+    <textarea id="code">
+    function najdiZnakVTexte(text, znak) {
+        for(var i = 0; i < text.length; i++) {
+            if(text[i] === znak) {
+                return "Znak '" + znak + "' sa nachádza na pozícii " + i + ".";
+            }
+        }
+        return "Znak " + znak + " sa v texte - " + text + " nenachadza!";
+    }
+    
+    function vypisTextOdzadu(text) {
+        var textOdzadu = ""
+        for(var i = text.length - 1; i >= 0; i--) {
+            textOdzadu += text[i];
+        }
+        return textOdzadu ;
+    }
+    
+    console.log("Cvicenie 1. - " + najdiZnakVTexte("programovanie","o"));
+    
+    console.log("Cvicenie 2. - " + vypisTextOdzadu("hello"));
+    </textarea>
+    <button onclick="runCode()">Run Code</button>
+
+    <h3>Vysledok:</h3>
+    <div id="output"></div>
+
+    <script>
+        function toggleExercise(id) {
+            let content = document.getElementById("exercise" + id);
+            content.style.display = content.style.display === "none" || content.style.display === "" ? "block" : "none";
+        }
+
+        function runCode() {
+            let code = document.getElementById("code").value;
+            let outputDiv = document.getElementById("output");
+
+            outputDiv.textContent = ""; // Clear previous output
+
+            let oldConsoleLog = console.log;
+            console.log = function (message) {
+                outputDiv.textContent += message + "\n";
+                oldConsoleLog.apply(console, arguments);
+            };
+
+            try {
+                new Function(code)();
+            } catch (error) {
+                console.log("Error: " + error.message);
+            }
+
+            console.log = oldConsoleLog;
+        }
+    </script>
+
+</body>
+
+</html>
